@@ -22,14 +22,14 @@ func (c *Conn) Close() error {
 	return c.conn.Close()
 }
 
-func dialWebsocketToChan(ctx context.Context, url string, ch chan []byte) chan struct{} {
+func DialWebsocketToChan(ctx context.Context, url string, ch chan []byte) chan struct{} {
 	done := make(chan struct{}, 1)
 	go func() {
 		for {
 			var conn *Conn
 			retry.Do(
 				func() (err error) {
-					conn, err = dialWebsocket(ctx, url)
+					conn, err = DialWebsocket(ctx, url)
 					return
 				},
 				retry.Attempts(0),
@@ -63,7 +63,7 @@ func dialWebsocketToChan(ctx context.Context, url string, ch chan []byte) chan s
 	return done
 }
 
-func dialWebsocket(ctx context.Context, url string) (*Conn, error) {
+func DialWebsocket(ctx context.Context, url string) (*Conn, error) {
 	dialer := &websocket.Dialer{
 		HandshakeTimeout: 5 * time.Second,
 	}

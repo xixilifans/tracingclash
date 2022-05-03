@@ -4,6 +4,8 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/tracing/pkg/handler"
 )
 
 func envOrDefault(env string, def string) string {
@@ -19,7 +21,7 @@ func main() {
 	clashToken := envOrDefault("CLASH_TOKEN", "")
 	vectorAddr := envOrDefault("VECTOR_ADDR", "localhost:9000")
 
-	go handlers.handleReport(vectorAddr, clashHost, clashToken)
+	go handler.HandleReport(vectorAddr, clashHost, clashToken)
 
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)

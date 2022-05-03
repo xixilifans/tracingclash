@@ -7,9 +7,10 @@ import (
 	"time"
 
 	"github.com/avast/retry-go/v4"
+	"github.com/tracing/pkg/websocketpack"
 )
 
-func handleReport(addr, clashHost, clashToken string) {
+func HandleReport(addr, clashHost, clashToken string) {
 	dialer := net.Dialer{}
 	for {
 		var conn net.Conn
@@ -34,13 +35,13 @@ func handleReport(addr, clashHost, clashToken string) {
 		)
 
 		fmt.Printf("dial %s success, send data to vector\n", addr)
-		handleTCPConn(conn, clashHost, clashToken)
+		HandleTCPConn(conn, clashHost, clashToken)
 
 		conn.Close()
 	}
 }
 
-func handleTCPConn(conn net.Conn, clashHost string, clashToken string) {
+func HandleTCPConn(conn net.Conn, clashHost string, clashToken string) {
 	trafficCh := make(chan []byte)
 	tracingCh := make(chan []byte)
 
@@ -82,7 +83,7 @@ func dialTrafficChan(ctx context.Context, clashHost string, clashToken string, c
 		clashUrl = fmt.Sprintf("ws://%s/traffic?token=%s", clashHost, clashToken)
 	}
 
-	return websocketpack.dialWebsocketToChan(context.Background(), clashUrl, ch)
+	return websocketpack.DialWebsocketToChan(context.Background(), clashUrl, ch)
 }
 
 func dialTracingChan(ctx context.Context, clashHost string, clashToken string, ch chan []byte) chan struct{} {
@@ -93,5 +94,5 @@ func dialTracingChan(ctx context.Context, clashHost string, clashToken string, c
 		clashUrl = fmt.Sprintf("ws://%s/profile/tracing?token=%s", clashHost, clashToken)
 	}
 
-	return websocketpack.dialWebsocketToChan(context.Background(), clashUrl, ch)
+	return websocketpack.DialWebsocketToChan(context.Background(), clashUrl, ch)
 }
