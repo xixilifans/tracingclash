@@ -1,7 +1,6 @@
 # Clash Tracing Dashboard
 
 An example of a clash tracing exporter API.
-
 ### Screenshot
 
 ![screenshot](./screenshot/screenshot.png)

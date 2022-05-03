@@ -19,7 +19,7 @@ func main() {
 	clashToken := envOrDefault("CLASH_TOKEN", "")
 	vectorAddr := envOrDefault("VECTOR_ADDR", "localhost:9000")
 
-	go handleReport(vectorAddr, clashHost, clashToken)
+	go handlers.handleReport(vectorAddr, clashHost, clashToken)
 
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
