@@ -1,4 +1,4 @@
-package handlers
+package handler
 
 import (
 	"context"
@@ -82,7 +82,7 @@ func dialTrafficChan(ctx context.Context, clashHost string, clashToken string, c
 		clashUrl = fmt.Sprintf("ws://%s/traffic?token=%s", clashHost, clashToken)
 	}
 
-	return websockets.dialWebsocketToChan(context.Background(), clashUrl, ch)
+	return websocketpack.dialWebsocketToChan(context.Background(), clashUrl, ch)
 }
 
 func dialTracingChan(ctx context.Context, clashHost string, clashToken string, ch chan []byte) chan struct{} {
@@ -93,5 +93,5 @@ func dialTracingChan(ctx context.Context, clashHost string, clashToken string, c
 		clashUrl = fmt.Sprintf("ws://%s/profile/tracing?token=%s", clashHost, clashToken)
 	}
 
-	return websockets.dialWebsocketToChan(context.Background(), clashUrl, ch)
+	return websocketpack.dialWebsocketToChan(context.Background(), clashUrl, ch)
 }
